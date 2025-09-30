@@ -18,14 +18,14 @@ describe('Article flow', () => {
   });
 
   it('Should create article via UI', () => {
-    // ✅ явний виклик login-команди всередині тесту
-    cy.login();
+    // Явний виклик логіну всередині тесту (вимога завдання)
+    cy.registerAndLogin();
 
     cy.visit('/editor');
 
-    cy.get('[formcontrolname=title]').type(articleTitle);
-    cy.get('[formcontrolname=description]').type(articleDescription);
-    cy.get('[formcontrolname=body]').type(articleBody);
+    cy.get('[name=title]').type(articleTitle);
+    cy.get('[name=description]').type(articleDescription);
+    cy.get('[name=body]').type(articleBody);
 
     cy.contains('button', 'Publish Article').click();
 
@@ -40,7 +40,6 @@ describe('Article flow', () => {
     cy.contains('h1', articleTitle).should('be.visible');
     cy.contains('button', 'Delete Article').click();
 
-    // ✅ менш крихка перевірка
-    cy.url().should('include', '/');
+    cy.url().should('include', Cypress.config().baseUrl);
   });
 });
